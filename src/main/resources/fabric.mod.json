@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "deploy",
+  "version": "${version}",
+
+  "name": "D.E.P.L.O.Y.",
+  "description": "Smart Wired Intelligent Storage Systems for the layman!",
+  "authors": [
+    "ALotOfLetters"
+  ],
+  "contact": {
+    "homepage": "https://github.com/rwilliaise/deploy"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.deploy.base.DeployMod"
+    ]
+  },
+  "mixins": [
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

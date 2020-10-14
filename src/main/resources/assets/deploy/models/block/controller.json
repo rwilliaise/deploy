@@ -1,0 +1,12 @@
+{
+	"parent": "minecraft:block/cube",
+	"textures": {
+	  "particle": "deploy:block/controller_base",
+	  "north": "deploy:block/controller_front",
+	  "south": "deploy:block/controller_base",
+	  "east": "deploy:block/controller_base",
+	  "west": "deploy:block/controller_base",
+	  "up": "deploy:block/controller_top",
+	  "down": "deploy:block/controller_base"
+	}
+  }

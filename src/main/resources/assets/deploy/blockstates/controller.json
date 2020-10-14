@@ -1,0 +1,8 @@
+{
+	"variants": {
+	  "facing=north": { "model": "deploy:block/controller" },
+	  "facing=east":  { "model": "deploy:block/controller", "y":  90},
+	  "facing=south": { "model": "deploy:block/controller", "y": 180 },
+	  "facing=west":  { "model": "deploy:block/controller", "y": 270 }
+	}
+  }
