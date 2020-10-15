@@ -8,6 +8,8 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.FurnaceBlockEntity;
+import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -18,6 +20,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Nameable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -28,7 +31,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class ControllerBlockEntity extends NetworkBlockEntity implements BlockEntityClientSerializable,
-		ExtendedScreenHandlerFactory {
+		ExtendedScreenHandlerFactory, Nameable {
+
+	private Text customName;
 
 	public ControllerBlockEntity() {
 		super(DeployMod.CONTROLLER_ENTITY);
@@ -40,23 +45,53 @@ public class ControllerBlockEntity extends NetworkBlockEntity implements BlockEn
 	}
 
 	@Override
-	public void fromClientTag(CompoundTag compoundTag) {
-
+	public CompoundTag toTag(CompoundTag tag) {
+		super.toTag(tag);
+		if (this.customName != null) {
+			tag.putString("CustomName", Text.Serializer.toJson(this.customName));
+		}
+		return tag;
 	}
 
 	@Override
-	public CompoundTag toClientTag(CompoundTag compoundTag) {
-		return null;
+	public void fromTag(BlockState state, CompoundTag tag) {
+		super.fromTag(state, tag);
+		if (tag.contains("CustomName", 8)) {
+			this.customName = Text.Serializer.fromJson(tag.getString("CustomName"));
+		}
+	}
+
+	@Override
+	public void fromClientTag(CompoundTag tag) {
+		fromTag(getCachedState(), tag);
+	}
+
+	@Override
+	public CompoundTag toClientTag(CompoundTag tag) {
+		return toTag(tag);
+	}
+
+	public void setCustomName(Text customName) {
+		this.customName = customName;
+	}
+
+	public Text getName() {
+		return this.customName != null ? this.customName : new TranslatableText("screen.deploy.controller");
 	}
 
 	@Override
 	public void writeScreenOpeningData(ServerPlayerEntity serverPlayerEntity, PacketByteBuf packetByteBuf) {
-
+		packetByteBuf.writeBlockPos(this.pos);
 	}
 
 	@Override
 	public Text getDisplayName() {
-		return null;
+		return this.getName();
+	}
+
+	@Nullable
+	public Text getCustomName() {
+		return this.customName;
 	}
 
 	@Override

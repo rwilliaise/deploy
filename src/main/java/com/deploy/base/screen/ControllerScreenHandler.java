@@ -24,7 +24,7 @@ public class ControllerScreenHandler extends ScreenHandler {
 
 	public ControllerScreenHandler(int syncId, ControllerBlockEntity entity) {
 		super(DeployMod.CONTROLLER_SCREEN_HANDLER, syncId);
-
+		this.entity = entity;
 	}
 
 	@Override
