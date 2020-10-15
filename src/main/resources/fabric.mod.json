@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "D.E.P.L.O.Y.",
-  "description": "Smart Wired Intelligent Storage Systems for the layman!",
+  "description": "S.W.I.S.S. for the layman!",
   "authors": [
     "ALotOfLetters"
   ],
@@ -13,10 +13,13 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/deploy/icon.png",
 
   "environment": "*",
   "entrypoints": {
+    "client": [
+      "com.deploy.base.client.DeployClient"
+    ],
     "main": [
       "com.deploy.base.DeployMod"
     ]
@@ -28,8 +31,5 @@
     "fabricloader": ">=0.7.4",
     "fabric": "*",
     "minecraft": "1.16.x"
-  },
-  "suggests": {
-    "flamingo": "*"
   }
 }

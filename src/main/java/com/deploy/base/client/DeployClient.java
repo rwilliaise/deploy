@@ -6,7 +6,6 @@ public class DeployClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		
 	}
-	
+
 }
