@@ -2,6 +2,7 @@ package com.deploy.base.block.entity;
 
 import com.deploy.base.DeployMod;
 
+import com.deploy.base.screen.ControllerScreenHandler;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -26,8 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ControllerBlockEntity extends NetworkBlockEntity implements NamedScreenHandlerFactory,
-		ExtendedScreenHandlerFactory, BlockEntityClientSerializable {
+public class ControllerBlockEntity extends NetworkBlockEntity implements BlockEntityClientSerializable,
+		ExtendedScreenHandlerFactory {
 
 	public ControllerBlockEntity() {
 		super(DeployMod.CONTROLLER_ENTITY);
@@ -36,16 +37,6 @@ public class ControllerBlockEntity extends NetworkBlockEntity implements NamedSc
 	@Override
 	public boolean canConnect(Direction side) {
 		return true;
-	}
-
-	@Override
-	public Text getDisplayName() {
-		return new TranslatableText("screen.deploy.controller");
-	}
-
-	@Override
-	public @Nullable ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-		return null;
 	}
 
 	@Override
@@ -61,5 +52,15 @@ public class ControllerBlockEntity extends NetworkBlockEntity implements NamedSc
 	@Override
 	public void writeScreenOpeningData(ServerPlayerEntity serverPlayerEntity, PacketByteBuf packetByteBuf) {
 
+	}
+
+	@Override
+	public Text getDisplayName() {
+		return null;
+	}
+
+	@Override
+	public @Nullable ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+		return new ControllerScreenHandler(syncId, this);
 	}
 }
