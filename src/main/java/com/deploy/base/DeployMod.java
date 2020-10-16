@@ -30,8 +30,10 @@ public class DeployMod implements ModInitializer {
 
 	public static final Identifier CONTROLLER = new Identifier(MOD_ID, "controller");
 	public static final Block CONTROLLER_BLOCK = new ControllerBlock();
-	public static final BlockEntityType<?> CONTROLLER_ENTITY = BlockEntityType.Builder.create(ControllerBlockEntity::new, CONTROLLER_BLOCK).build(null);
-	public static final ScreenHandlerType<?> CONTROLLER_SCREEN_HANDLER = ScreenHandlerRegistry.registerExtended(CONTROLLER, ControllerScreenHandler::new);
+	public static final BlockEntityType<?> CONTROLLER_ENTITY
+			= BlockEntityType.Builder.create(ControllerBlockEntity::new, CONTROLLER_BLOCK).build(null);
+	public static final ScreenHandlerType<ControllerScreenHandler> CONTROLLER_SCREEN_HANDLER
+			= ScreenHandlerRegistry.registerExtended(CONTROLLER, ControllerScreenHandler::new);
 
 	public static final Identifier CABLE_ID = new Identifier(MOD_ID, "cable");
 	public static final Block CABLE = new CableBlock();
