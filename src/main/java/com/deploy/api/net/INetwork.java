@@ -17,7 +17,7 @@ public interface INetwork {
 	 * @return All inventories connected to the network.
 	 */
 	default List<Inventory> getConnectedInventories() {
-		List<Inventory> out = new ArrayList<>();
+		List<Inventory> out = new ArrayList<>(this.getAdjacentInventories());
 		getConnectedINetworks().forEach(iNetwork -> {
 			List<Inventory> added = iNetwork.getAdjacentInventories();
 			added.removeAll(out); // remove already existing inventories
@@ -44,6 +44,7 @@ public interface INetwork {
 	 */
 	default void getConnectedINetworks(List<INetwork> network, INetwork target, INetwork ignore) {
 		for (INetwork net: target.getAdjacentINetworks(ignore)) {
+			if (network.contains(net)) { continue; }
 			network.add(net);
 			this.getConnectedINetworks(network, net, target);
 		}

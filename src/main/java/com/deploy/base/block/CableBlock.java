@@ -10,6 +10,7 @@ import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 public class CableBlock extends ConnectingBlock implements BlockEntityProvider {
 
 	public CableBlock() {
-		super(0.3125f, FabricBlockSettings.of(Material.STONE).breakByTool(FabricToolTags.PICKAXES));
+		super(0.1875f, FabricBlockSettings.of(Material.STONE).breakByTool(FabricToolTags.PICKAXES));
 		this.setDefaultState(getStateManager().getDefaultState()
 				.with(NORTH, false)
 				.with(SOUTH, false)
@@ -27,6 +28,15 @@ public class CableBlock extends ConnectingBlock implements BlockEntityProvider {
 				.with(EAST, false)
 				.with(UP, false)
 				.with(DOWN, false));
+	}
+
+	@Override
+	public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
+		if (stateFrom.isOf(this)) {
+			return true;
+		}
+
+		return super.isSideInvisible(state, stateFrom, direction);
 	}
 
 	public BlockState getPlacementState(ItemPlacementContext ctx) {

@@ -3,6 +3,7 @@ package com.deploy.base.client.screen;
 import com.deploy.api.net.INetwork;
 import com.deploy.base.block.entity.ControllerBlockEntity;
 import com.deploy.base.screen.ControllerScreenHandler;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -28,6 +29,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Quaternion;
+import org.lwjgl.opengl.GL11;
 
 import java.util.Map;
 import java.util.Random;
@@ -81,7 +83,9 @@ public class ControllerScreen extends HandledScreen<ControllerScreenHandler> {
 
 	@Override
 	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-		this.textRenderer.draw(matrices, this.title, (float)this.titleX, (float)this.titleY, 4210752);
+		int x = (width - backgroundWidth) / 2;
+		int y = (height - backgroundHeight) / 2;
+		this.textRenderer.draw(matrices, this.title, (float) x + 8, (float) y + 6, 4210752);
 	}
 
 	@Override
@@ -90,12 +94,17 @@ public class ControllerScreen extends HandledScreen<ControllerScreenHandler> {
 		super.render(matrices, mouseX, mouseY, delta);
 		drawMouseoverTooltip(matrices, mouseX, mouseY);
 		assert client != null;
-		ItemRenderer renderer = client.getItemRenderer();
 		int x = width / 2 - 8;
 		int y = height / 2 - 8;
 
-		BlockRenderManager manager = client.getBlockRenderManager();
+		int scissorX = (int) ((width - backgroundWidth + 16) / 2 * this.client.getWindow().getScaleFactor());
+		int scissorY = (int) ((height - backgroundHeight + 16) / 2 * this.client.getWindow().getScaleFactor());
+
+		GL11.glScissor(scissorX, scissorY, backgroundWidth - 16, backgroundHeight - 16);
+		GL11.glEnable(GL11.GL_SCISSOR_TEST); // monkaS
+
 		matrices.push();
+
 		matrices.translate((float)x, (float)y, 100.0F);
 		matrices.multiply(new Quaternion(Vector3f.POSITIVE_X, -35, true));
 		matrices.multiply(new Quaternion(Vector3f.POSITIVE_Y, 135, true));
@@ -116,6 +125,8 @@ public class ControllerScreen extends HandledScreen<ControllerScreenHandler> {
 		}
 		IMMEDIATE.draw();
 		matrices.pop();
+
+		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 	}
 
 	private void renderBlock(MatrixStack matrices, BlockEntity netEntity) {
